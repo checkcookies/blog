@@ -1,27 +1,45 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Home from '../views/Home.vue'
 
 Vue.use(VueRouter)
 
-  const routes = [
+const routes = [
   {
     path: '/',
     name: 'Home',
-    component: Home
-  },
-  {
-    path: '/about',
-    name: 'About',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
+    component: () => import('../views/homePage/index'),
+    children: [
+      {
+        path: '/',
+        name: 'Index',
+        component: () => import('../views/homePage/modules/Content.vue')
+      },
+      {
+        path: '/articleDetail',
+        name: 'ArticleDetail',
+        component: () => import('../views/ariticlePage/index.vue')
+      },
+      {
+        path: '/category',
+        name: 'Category',
+        component: () => import('../views/categoryPage/index.vue')
+      },
+      {
+        path: '/diary',
+        name: 'Diary',
+        component: () => import('../views/diaryPage/index.vue')
+      }
+    ]
   }
 ]
 
 const router = new VueRouter({
   routes
+})
+
+router.beforeEach((to, form, next) => {
+  window.scrollTo(0, 0);
+  next()
 })
 
 export default router
